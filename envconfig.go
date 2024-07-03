@@ -227,11 +227,17 @@ func Process(prefix string, spec interface{}) error {
 	return err
 }
 
-// MustProcess is the same as Process but panics if an error occurs
+// MustProcess is the same as Process but panics if an error occurs, and returns the spec.
 func MustProcess(prefix string, spec interface{}) {
 	if err := Process(prefix, spec); err != nil {
 		panic(err)
 	}
+}
+
+// MustProcessT is the same as MustProcess but returns the spec.
+func MustProcessT[T any](prefix string, spec T) T {
+	MustProcess(prefix, spec)
+	return spec
 }
 
 func processField(value string, field reflect.Value) error {

@@ -519,6 +519,15 @@ func TestMustProcess(t *testing.T) {
 	MustProcess("env_config", &m)
 }
 
+func TestMustProcessT(t *testing.T) {
+	t.Setenv("ENV_CONFIG_REQUIREDVAR", "this is required")
+	s := MustProcessT("env_config", &Specification{})
+
+	if s.RequiredVar != "this is required" {
+		t.Errorf("expected %s, got %s", "foo", s.RequiredVar)
+	}
+}
+
 func TestEmbeddedStruct(t *testing.T) {
 	var s Specification
 	os.Clearenv()
